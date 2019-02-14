@@ -1,5 +1,5 @@
-function [Clusters] = slices(ptCloud,pas,thc,tol_ground)
-% SLICE
+function [Clusters,slice_list] = slices(ptCloud,pas,thc,tol_ground)
+% SLICES
 %
 % Function to create multiple vertical slices of a given point cloud. 
 %
@@ -15,6 +15,7 @@ function [Clusters] = slices(ptCloud,pas,thc,tol_ground)
 %
 % (c) Arnadi Murtiyoso (INSA Strasbourg - ICube-TRIO UMR 7357)
 
+f = waitbar(0,'Creating slices...');
 Zmax = max(ptCloud.Location(:,3)); %maximum altitude of point cloud
 Zmin = min(ptCloud.Location(:,3)); %minimum altitude of point cloud
 
@@ -36,34 +37,30 @@ for i=1:nSlices
     ptindex_int = intersect(ptindex_desc,ptindex_asc); %index of points within the slice
     
     ptCloudSlice = select (ptCloud,ptindex_int);
-    
-%     %Plot the clusters individually
-%     figure('name','Slices')
-%     title('Slices');
-%     fig=pcshow(ptCloudSlice);
-%     hold on
-%     dim = [0.2 0.5 0.3 0.3];
-%     xlabel('X (m)')
-%     ylabel('Y (m)')
-%     zlabel('Z (m)')
 
     %write a ply file of the segmented wall point cloud
     pcwrite(ptCloudSlice,strcat('.\03_Output\98_temp\',slice_list(i),'.ply'));
     
     Slices.(slice_list{i}) = ptCloudSlice;
     Z = Z+pas;
+    waitbar((i/nSlices),f)
 end
 
-%plot the segmented walls
+disp(strcat('[DING!]',num2str(nSlices),' vertical slices were created with an interval=',num2str(pas),' and thickness=',num2str(thc),' .'));
+
+%plot the slices
 figure ('Name','Slices')
+for i=1:nSlices
+    fig=pcshow(Slices.(slice_list(i,1)));
+    hold on
+end
 axis equal
-title('Detected Walls Plane Mesh')
+title(strcat('Slices with interval=',num2str(pas),' and thickness=',num2str(thc)))
 xlabel('X (m)')
 ylabel('Y (m)')
 zlabel('Z (m)')
-for i=1:nSlices
-    pcshow(Slices.(slice_list(i,1)));
-    hold on
-end
+saveas(fig,strcat('.\03_Output\99_Figs\attic_segmentation.jpg'));
+
+close(f);
 
 Clusters =Slices;
