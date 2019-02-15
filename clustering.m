@@ -1,4 +1,4 @@
-function [Clusters] = clustering(labels,pointcloud,inlierNb)
+function [Clusters,stdummy] = clustering(labels,pointcloud,inlierNb)
 % CLUSTERING
 %
 % Function to create individual point clouds in Matlab          
@@ -8,12 +8,18 @@ function [Clusters] = clustering(labels,pointcloud,inlierNb)
 % Input : 
 % - labels array (output from pcsegdist)
 % - the original pre-segmented point cloud
+% - threshold number of inliers. Below this threshold will be considered as
+% outliers
+%
+% Outputs:
+% - Clusters: a struct with the inlier clusters as fields
+% - stdummy: a list of the names of the clusters
 %
 % (c) Arnadi Murtiyoso (INSA Strasbourg - ICube-TRIO UMR 7357)
 
 clear Clusters
 
-tic
+% tic
 %Look for unique labels
 a = unique(labels);
 [numClusters,~] =size (a); 
@@ -32,10 +38,10 @@ end
 %Delete the zeros rows
 table( ~any(table,2), : ) = [];
 [numrowTable,~] =size (table); 
-disp('Lookup table created successfully');
-toc
+% disp('Lookup table created successfully');
+% toc
 
-tic
+% tic
 f = waitbar(0,'Creating individual point cloud clusters...');
 %create dummy for struct field names
 stdummy=strings(numrowTable,1);
@@ -55,12 +61,12 @@ for i=1:numrowTable
     %Fill the string dummy with struct field names
     stdummy(i,1) = strcat('PtCloud',num2str(table(i,1)));
     %Plot the cluster individually
-    figure(i)
-    pcshow(PtCloud);
-    title(strcat('Cluster',{' '}, num2str(table(i,1))));
+%     figure('Name',strcat('PtCloud',num2str(i)))
+%     pcshow(PtCloud);
+%     title(strcat('Cluster',{' '}, num2str(table(i,1))));
     %Create the struct containing inlier clusters
     Clusters.(stdummy{i}) = PtCloud;
 end
 close(f);
-disp('Clusters created successfully');
-toc
+disp('[DING!]Clusters created successfully');
+% toc
