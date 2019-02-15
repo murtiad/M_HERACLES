@@ -48,18 +48,18 @@ end
 
 disp(strcat('[DING!]',num2str(nSlices),' vertical slices were created with an interval=',num2str(pas),' and thickness=',num2str(thc),' .'));
 
-%plot the slices
-figure ('Name','Slices')
-for i=1:nSlices
-    fig=pcshow(Slices.(slice_list(i,1)));
-    hold on
-end
-axis equal
-title(strcat('Slices with interval=',num2str(pas),' and thickness=',num2str(thc)))
-xlabel('X (m)')
-ylabel('Y (m)')
-zlabel('Z (m)')
-saveas(fig,strcat('.\03_Output\99_Figs\attic_segmentation.jpg'));
+% %plot the slices
+% figure ('Name','Slices')
+% for i=1:nSlices
+%     fig=pcshow(Slices.(slice_list(i,1)));
+%     hold on
+% end
+% axis equal
+% title(strcat('Slices with interval=',num2str(pas),' and thickness=',num2str(thc)))
+% xlabel('X (m)')
+% ylabel('Y (m)')
+% zlabel('Z (m)')
+% saveas(fig,strcat('.\03_Output\99_Figs\attic_segmentation.jpg'));
 
 close(f);
 
