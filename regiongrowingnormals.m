@@ -1,4 +1,4 @@
-function [Regions] = regiongrowingnormals (ptCloud,normals2,h,AngleThres,CurvThres,neighbor_radius)
+function [Regions] = regiongrowingnormals (ptCloud,normals2,h,AngleThres,CurvThres,neighbor_radius,thres_pt)
 % REGIONGROWINGNORMALS
 %
 % Function to perform greedy region growing on a point cloud, based on the 
@@ -12,6 +12,7 @@ function [Regions] = regiongrowingnormals (ptCloud,normals2,h,AngleThres,CurvThr
 % region
 % - CurvThres: threshold of curvature to be considered as potential seed
 % - neighbor_radius: search radius of nearest neighbor points
+% - thres_pt: threshold of number of points in a specific region
 %
 % Outputs:
 % - Regions: a struct containing the segmented regions.
@@ -21,12 +22,14 @@ tic
 A=ptCloud.Location; %available points
 labels=zeros(ptCloud.Count,1);
 j=1;
+    
 while ~all(isnan(A(:)))
+   
     % name of this region
     thisRegionName=strcat('Region',int2str(j));
     
     % find the index of point having h nearest to 0
-    seedID=find(h == min(h));
+    seedID=find(h == min(h),1);
     seedGeom=A(seedID,:);
     seedNorm=normals2(seedID,:);
     
@@ -35,7 +38,7 @@ while ~all(isnan(A(:)))
     thisRegion=seedID;
     
     % loop for seed here
-    while ~isempty(thisSeed)
+    while ~isempty(thisSeed)        
     % find this seed's nearest neighbors
     
     [neighborIndices,~] = findNeighborsInRadius(ptCloud,seedGeom,neighbor_radius);
@@ -102,7 +105,7 @@ while ~all(isnan(A(:)))
     end
 
     ptCloudOut=select(ptCloud,thisRegion);
-    if ptCloudOut.Count>50
+    if ptCloudOut.Count>thres_pt
         Regions.(thisRegionName)=ptCloudOut;
         for l=1:ptCloudOut.Count
             labels(thisRegion(l,1),1)=j+1;
