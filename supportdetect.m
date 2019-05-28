@@ -1,4 +1,4 @@
-function [Support,STable] = supportdetect(Body_ptCloud)
+function [Support,STable,remainPc] = supportdetect(Body_ptCloud)
 % SUPPORTDETECT
 %
 % Function to detect building supports (columns and piers)
@@ -172,14 +172,21 @@ for i=1:nbSupport
     %extract the points within our cookiecutter
     cookie = select(Body_ptCloud,rows);
 
+    %find row numbers for points which are outside the polygon
+    rowsd = find(TFin(:,1)==0);
+    
+    %extract the points within our cookiecutter
+    dough = select(Body_ptCloud,rowsd);
+    
     %Cleaning our cookie
     %Detect the ground plane and store the points in inliers
     maxDistance = 0.05;
     referenceVector = [0,0,1];
-    [~,~,outliers] = pcfitplane(cookie,maxDistance,referenceVector); %only need the outlier
+    [~,inliers,outliers] = pcfitplane(cookie,maxDistance,referenceVector); %only need the outlier
     
     %Cluster the points, ignoring the ground plane points. Why? to clean the cookie of course
     ptCloudWithoutGround = select(cookie,outliers);
+    ptCloudGround = select(cookie,inliers);
     distThreshold = 0.1; %this must also be REFINED
 
     [labels,~] = pcsegdist(ptCloudWithoutGround,distThreshold);
@@ -203,6 +210,12 @@ for i=1:nbSupport
     %extract the cleaned point cloud
     inPc2 = select(ptCloudWithoutGround,rows2);
     
+    %Retrieve the outliers from the pcsegdist process
+    rows3 = find(labels(:,1)~=indexTable);
+    
+    %extract the outlier point cloud
+    outPc = select(ptCloudWithoutGround,rows3);
+    
     %safeguard if the cluster with most point IS NOT the support
     %add another criterion based on height
     ZminInPc=min(cookie.Location(:,3)); %compute min Z of original cookie
@@ -218,11 +231,16 @@ for i=1:nbSupport
         indexTable = labeltable(rowTable(1,1),1);
         rows2 = find(labels(:,1)==indexTable);
         inPc2 = select(ptCloudWithoutGround,rows2);
+        outPc = select(ptCloudWithoutGround,rows3);
     end
     end
     
     %no harm in more cleaning up
     inPc2 = pcdenoise(inPc2);
+    
+    %merge the cookie crumbs (outlier point cloud)
+    outPc2 = pcmerge(dough,ptCloudGround,0.01);
+    outPc3 = pcmerge(outPc2,outPc,0.01);
     
     %store the point cloud in a structure called Object
     Object.PtCloud = inPc2;
@@ -251,7 +269,9 @@ for i=1:nbSupport
     %store the object in a structure called Support
     Support.(ClusterNm) = Object;
     
+    Body_ptCloud = outPc3;
+    
     waitbar((i/nbSupport),f)
 end
-
+remainPc = Body_ptCloud;
 close(f);
