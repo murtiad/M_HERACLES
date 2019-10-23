@@ -9,16 +9,27 @@ function [Regions] = regiongrowingnormals (ptCloud,normals2,h,AngleThres,CurvThr
 % - normals2: normals of each point. Compute with pcnormals
 % - h: mean curvature of each point. Compute using Beksi (2014)
 % - AngleThres: threshold of normal angle to be considered as the same
-% region
-% - CurvThres: threshold of curvature to be considered as potential seed
-% - neighbor_radius: search radius of nearest neighbor points
-% - thres_pt: threshold of number of points in a specific region
+% region; default is 5 degrees
+% - CurvThres: threshold of curvature to be considered as potential seed;
+% default is 1
+% - neighbor_radius: search radius of nearest neighbor points; default is
+% 0.08 (8 cm in metric unit)
+% - thres_pt: threshold of number of points to be considered as a specific 
+% region; default is 50
 %
 % Outputs:
 % - Regions: a struct containing the segmented regions.
 %
 % (c) Arnadi Murtiyoso (INSA Strasbourg - ICube-TRIO UMR 7357)
 tic
+
+if nargin==0, help(mfilename), return, end
+
+if nargin<4, AngleThres=5; end
+if nargin<5, CurvThres=1; end
+if nargin<6, neighbor_radius=0.08; end
+if nargin<7, thres_pt=50; end
+
 A=ptCloud.Location; %available points
 labels=zeros(ptCloud.Count,1);
 j=1;
@@ -28,7 +39,7 @@ while ~all(isnan(A(:)))
     % name of this region
     thisRegionName=strcat('Region',int2str(j));
     
-    % find the index of point having h nearest to 0
+    % find the index of point having h nearest to 0 (=plane surface)
     seedID=find(h == min(h),1);
     seedGeom=A(seedID,:);
     seedNorm=normals2(seedID,:);
@@ -105,6 +116,9 @@ while ~all(isnan(A(:)))
     end
 
     ptCloudOut=select(ptCloud,thisRegion);
+    
+    % if the number of points in the region is less than the determined
+    % threshold, consider it as unsegmented
     if ptCloudOut.Count>thres_pt
         Regions.(thisRegionName)=ptCloudOut;
         for l=1:ptCloudOut.Count
