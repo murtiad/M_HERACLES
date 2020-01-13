@@ -23,7 +23,7 @@ The code was developped with the Matlab Computer Vision Toolbox installed (2018a
 - William Beksi's function to compute principal curvatures, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/46772-estimate-principal-curvatures?s_tid=prof_contriblnk
 - Sven Holcombe's OcTree toolbox, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/40732-octree-partitioning-3d-points-into-spatial-subvolumes
 
-Available functions (23/10/2019):
+Available functions (13/01/2020):
 - shapeseg.m : function to use (polygonal) ESRI shapefiles (.shp) to delimit ("cookie cutter" style) 3D point cloud area to be then cleaned using the pcsegdist function. This function generates separate segmented point clouds for each object, with their attributes as per the description in the shapefile
 - clustering.m : function to create individual point clouds in Matlab structure from an original point cloud segmented using the pcsegdist function 
 - shpload.m : Loads a polygonal ESRI .shp file and convert it into a struct called 'Shape'. 'Shape' will contain as fields the individual objects in the file. Each field will contain a struct with information available in the .dbf file attached to the .shp file, as well as object type and geometry, both in the form of a list of vertex coordinates and in native Matlab polyshape object type
@@ -34,3 +34,4 @@ Available functions (23/10/2019):
 - regiongrowingnormals.m : an implementation of PCL's greedy region growing method, based on normal angles and curvatures. See also theoretical primer as explained in http://pointclouds.org/documentation/tutorials/region_growing_segmentation.php
 - regiongrowingnormalsOct.m : region growing based on smoothness constraints (normals and angles) that work much faster by implementing octree sub-divisions
 - dispNormals.m : simple function to display the directional arrows of point cloud normals
+- axedetect.m : detects axes in a (more or less) planar point cloud using (2D) Hough Transform. Useful to determine, for example, if a wooden beam is L-shaped.
