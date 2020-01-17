@@ -20,20 +20,20 @@ function [Clusters,Axes,remainPc] = axedetect(datapc,beamWidth)
 %
 % (c) Arnadi Murtiyoso (INSA Strasbourg - ICube-TRIO UMR 7357)
 
-tic
+% tic
 %% step 1: transform the point cloud into a planar XY coordinate system
 % compute the Principal Component Analysis
 coeffs = pca(datapc.Location);
 
 % transform the point cloud to PC-aligned system
 TransformPCA = datapc.Location*coeffs(:,1:3);
-pcTransformPCA = pointCloud(TransformPCA);
 
 % figure('name','Transformed Point Cloud')
 % pcshow(pcTransformPCA)
 
 % project the point cloud to a plane (Z=0)
 TransformPCA(:,3)=0;
+pcTransformPCA = pointCloud(TransformPCA);
 
 % determine the point cloud boundaries
 minX=min(TransformPCA(:,1));
@@ -57,7 +57,7 @@ height_pix=ceil(height_m/resolution_pix);
 raster=zeros(height_pix,width_pix);
 
 % optional: create a waitbar
-f = waitbar(0,'Converting to BW image...');
+f = waitbar(0,'Converting to BW image...','Name','axedetect.m');
 k=1;
 
 % fill the pixels
@@ -232,9 +232,10 @@ while ~isempty(VectorDummy)
     
     % if there is only 1 line or more than 2, impossible to determine the
     % axe...
-    if nbLines==1 || nbLines>2
-         disp('Data insufficient to determine axe');
-        continue
+    if nbLines<2
+         disp('Only one axis detected!');
+         Axes=[];
+        break
     end
     
     % the lines represent the edges of the point cloud. We want to get the
@@ -285,8 +286,14 @@ while ~isempty(VectorDummy)
     
     i=i+1;
 end
-
+if isempty(Axes)
+    Clusters(1).ptCloud=datapc;
+    remainPc=[];
+    return
+end
+    
 nbAxes = length(Axes);
+disp(strcat(num2str(nbAxes),32,'axes were found!'));
 % Plot the axes superposed on the (PCA-transformed) point cloud
 figure 
 pcshow(pcTransformPCA)
@@ -333,4 +340,4 @@ for k=1:nbAxes
     Clusters(k).ptCloud=ptCloudAxe;
 end
 
-toc
+% toc
