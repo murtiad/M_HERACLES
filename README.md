@@ -22,6 +22,8 @@ The code was developped with the Matlab Computer Vision Toolbox installed (2018a
 - geom3d and geom2d from the matGeom toolbox by David Legland: https://github.com/mattools/matGeom. I modified the drawing function slightly to be able to visualise large topographic coordinates (included in the folder 02_ThirdParty)
 - William Beksi's function to compute principal curvatures, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/46772-estimate-principal-curvatures?s_tid=prof_contriblnk
 - Sven Holcombe's OcTree toolbox, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/40732-octree-partitioning-3d-points-into-spatial-subvolumes
+- Audrey Cheong's function to compute euclidean distance between two point clouds, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/59377-euclidean-distance-between-two-point-clouds
+- Usama Mehmood's RANSAC cuboid fit function, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/65168-cuboid-fit-ransac
 
 Available functions (20/01/2020):
 - shapeseg.m : function to use (polygonal) ESRI shapefiles (.shp) to delimit ("cookie cutter" style) 3D point cloud area to be then cleaned using the pcsegdist function. This function generates separate segmented point clouds for each object, with their attributes as per the description in the shapefile
