@@ -6,7 +6,7 @@ Photogrammetry and Geomatics Group, ICube UMR 7357 INSA Strasbourg
 Contact: arnadi.murtiyoso@insa-strasbourg.fr
 https://github.com/murtiad          
 
-A toolbox with functions for processing point cloud data in the context of cultural heritage documentation.
+A toolbox with functions for processing point cloud data in the context of cultural heritage documentation. 
 
 ![GIS-based segmentation](https://github.com/murtiad/M_HERACLES/blob/master/test/GitHub_images/complextobuildings.JPG)
 
@@ -16,7 +16,7 @@ A toolbox with functions for processing point cloud data in the context of cultu
 
 ![Region growing](https://github.com/murtiad/M_HERACLES/blob/master/test/GitHub_images/regiongrowing.JPG)
 
-The code was developped with the Matlab Computer Vision Toolbox installed (2018a), as well as third party dependencies:
+The code was developped with the Matlab Computer Vision Toolbox installed (2018a), as well as third party dependencies. I have uploaded them in the 02_ThirdParty folder. Before working with M_HERACLES, please dezip all of them and run the 'setup.m' file. List of third party dependencies:
 - Cloth Simulation Filter (CSF) by Wuming Zhang et al. (Zhang W, Qi J, Wan P, Wang H, Xie D, Wang X, Yan G. An Easy-to-Use Airborne LiDAR Data Filtering Method Based on Cloth Simulation. Remote Sensing. 2016; 8(6):501.): https://github.com/jianboqi/CSF
 - M_MAP Toolbox by Rich Pawlowicz: https://www.eoas.ubc.ca/~rich/map.html. Note that I used this because I don't have the Matlab Mapping Toolbox installed :(
 - geom3d and geom2d from the matGeom toolbox by David Legland: https://github.com/mattools/matGeom. I modified the drawing function slightly to be able to visualise large topographic coordinates (included in the folder 02_ThirdParty)
