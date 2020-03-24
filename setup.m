@@ -6,7 +6,7 @@ baseDir=fileparts(mfilename('fullpath'));
 
 % Add selected subdirectories.
 addpath(fullfile(baseDir,'02_ThirdParty','euclideanDistanceTwoPointClouds(Cheong2016)'),'-end')
-addpath(fullfile(baseDir,'02_ThirdParty','findPointNormals(Taylor2015)'),'-end')
+%addpath(fullfile(baseDir,'02_ThirdParty','findPointNormals(Taylor2015)'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','CSF(Zhang2016)','matlab'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','m_map1.4'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','OcTree(Holcombe2013)'),'-end')
