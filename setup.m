@@ -10,7 +10,7 @@ addpath(fullfile(baseDir,'02_ThirdParty','euclideanDistanceTwoPointClouds(Cheong
 addpath(fullfile(baseDir,'02_ThirdParty','CSF(Zhang2016)','matlab'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','m_map1.4'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','OcTree(Holcombe2013)'),'-end')
-addpath(fullfile(baseDir,'02_ThirdParty','surf2stl'),'-end')
+%addpath(fullfile(baseDir,'02_ThirdParty','surf2stl'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','CuboidFittingRanSAC(Mehmood2017)'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','estimate_curvatures(Beksi2014)'),'-end')
 addpath(fullfile(baseDir,'02_ThirdParty','geom3d(Legland2005)','geom3D'),'-end')
