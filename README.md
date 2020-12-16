@@ -25,7 +25,7 @@ The code was developped with the Matlab Computer Vision Toolbox installed (2018a
 - Audrey Cheong's function to compute euclidean distance between two point clouds, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/59377-euclidean-distance-between-two-point-clouds
 - Usama Mehmood's RANSAC cuboid fit function, available on Matlab File Exchange: https://fr.mathworks.com/matlabcentral/fileexchange/65168-cuboid-fit-ransac
 
-Available functions (20/01/2020):
+Available functions (16/12/2020):
 - shapeseg.m : function to use (polygonal) ESRI shapefiles (.shp) to delimit ("cookie cutter" style) 3D point cloud area to be then cleaned using the pcsegdist function. This function generates separate segmented point clouds for each object, with their attributes as per the description in the shapefile
 - clustering.m : function to create individual point clouds in Matlab structure from an original point cloud segmented using the pcsegdist function 
 - shpload.m : Loads a polygonal ESRI .shp file and convert it into a struct called 'Shape'. 'Shape' will contain as fields the individual objects in the file. Each field will contain a struct with information available in the .dbf file attached to the .shp file, as well as object type and geometry, both in the form of a list of vertex coordinates and in native Matlab polyshape object type
@@ -38,3 +38,9 @@ Available functions (20/01/2020):
 - dispNormals.m : simple function to display the directional arrows of point cloud normals
 - axedetect.m : detects axes in a (more or less) planar point cloud using (2D) Hough Transform. Useful to determine, for example, if a wooden beam is L-shaped.
 - beamSeg.m : use this for a wooden beam frame structure. The function segments the point cloud automatically into individual beams. Could be useful for HBIM users.
+- detectRoof.m : funtion to detect roof vertices from an aerial point cloud, useful for 3D modeling for mapping stuffs. Output is simplified 3D mesh.
+- meshParallelSimp.m : simplifies the vertices belonging to the same parallel line in a given mesh. I developed this as a support function to detectRoof, to generate lighter 3D models.
+- meshSnap.m: snaps vertices belonging to different meshes when they are located within a set radius.
+- intersectMultPlanes.m : finds the intersection point between multiple 3D planes using least squares.
+- ptCloudCenter.m : translates point clouds to a new coordinate system (no rotation, conformal). Useful when dealing with large projected coordinates.
+- ptCloudRecenter.m : basically the inverse of ptCloudCenter, the function returns the input point cloud to the original coordinate system (usually at the end of operations).
