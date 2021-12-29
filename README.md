@@ -33,7 +33,7 @@ Available functions (16/12/2020):
 - slices.m : function to create multiple vertical slices of a given point cloud
 - atticsegment.m : function to separate a building's attic (space under the roof) from its body
 - supportdetect.m : function to detect structural supports (columns or piers) from a building body
-- regiongrowingnormals.m : an implementation of PCL's greedy region growing method, based on normal angles and curvatures. See also theoretical primer as explained in http://pointclouds.org/documentation/tutorials/region_growing_segmentation.php
+- regiongrowingnormals.m : an implementation of PCL's greedy region growing method, based on normal angles and curvatures. See also theoretical primer as explained in https://pcl.readthedocs.io/projects/tutorials/en/latest/region_growing_segmentation.html
 - regiongrowingnormalsOct.m : region growing based on smoothness constraints (normals and angles) that work much faster by implementing octree sub-divisions
 - dispNormals.m : simple function to display the directional arrows of point cloud normals
 - axedetect.m : detects axes in a (more or less) planar point cloud using (2D) Hough Transform. Useful to determine, for example, if a wooden beam is L-shaped.
